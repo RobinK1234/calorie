@@ -1,4 +1,3 @@
-
 const ItemCtrl = (function (){
     // Private
     // ItemCtrl module construct
@@ -37,18 +36,18 @@ const ItemCtrl = (function (){
 
 const UICtrl = (function(){
     return{
-        populateitemList: function (items){
-            let html = ``
+        populateItemList: function (items){
+            let html = ''
             items.forEach(function(item){
                 html += `<li id="item-${item.id}"><strong>${item.name}:</strong><em>${item.calories}</em>Calories</li>`
             })
             document.querySelector(`ul`).innerHTML = html
         },
         showTotalCalories: function (totalCalories){
-            document.querySelector(`.total-calories`).textContent = totalCalories
+            document.querySelector('.total-calories').textContent = totalCalories
         }
     }
-})
+})()
 
 const App = (function(){
     return{
@@ -60,5 +59,6 @@ const App = (function(){
             UICtrl.showTotalCalories(totalCalories)
         }
     }
-})(ItemCtrl)
+})(ItemCtrl, UICtrl)
+
 App.init()
