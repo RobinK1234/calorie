@@ -11,7 +11,7 @@ const ItemCtrl = (function (){
         items:[
             new Item(0, `Steak dinner`, 1200),
             new Item(1, `Cookie`, 420),
-            new Item(0, `A egg`, 119),
+            new Item(2, `A egg`, 119),
         ],
         total: 0
     }
@@ -30,6 +30,19 @@ const ItemCtrl = (function (){
         },
         getItems: function (){
             return data.items
+        },
+        addItem: function (name, calories){
+            let ID;
+            if(data.items.length > 0){
+                ID = data.items[data.items.length - 1].id + 1
+            }
+            else {
+                ID = 0
+            }
+            calories = parseInt(calories)
+            const newItem = new Item(ID, name, calories)
+            data.items.push(newItem)
+            return newItem
         }
     }
 })();
@@ -45,11 +58,40 @@ const UICtrl = (function(){
         },
         showTotalCalories: function (totalCalories){
             document.querySelector('.total-calories').textContent = totalCalories
+        },
+        getItemInput: function (){
+            const userInput = {
+            name: document.querySelector('#item-name').value,
+            calories: document.querySelector('#item-calories').value
+            }
+            return userInput
+        },
+        addListItem: function (item){
+            const li = document.createElement('li')
+            li.id = `item-${item.id}`
+            let html = `<strong>${item.name}:</strong><em>${item.calories}</em>Calories`
+            li.innerHTML = html
+            document.querySelector('ul').insertAdjacentElement('beforeend', li)
+        },
+        clearInput: function (){
+            document.querySelector('#item-name').value = ''
+            document.querySelector('#item-calories').value = ''
         }
     }
 })()
 
 const App = (function(){
+    const itemAddSubmit = function (event){
+        console.log('data is submitted')
+        const userInput = UICtrl.getItemInput()
+        console.log(userInput)
+        if(userInput.name !== '' && userInput.calories !== ''){
+            const newItem = ItemCtrl.addItem(userInput.name, userInput.calories)
+            UICtrl.addListItem(newItem)
+            UICtrl.clearInput()
+        }
+        event.preventDefault()
+    }
     return{
         init: function(){
             const items = ItemCtrl.getItems()
@@ -57,6 +99,8 @@ const App = (function(){
             UICtrl.populateItemList(items)
             const totalCalories = ItemCtrl.getTotalCalories()
             UICtrl.showTotalCalories(totalCalories)
+
+            document.querySelector('.add-btn').addEventListener('click', itemAddSubmit)
         }
     }
 })(ItemCtrl, UICtrl)
