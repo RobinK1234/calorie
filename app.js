@@ -51,7 +51,12 @@ const UICtrl = (function (){
         populateItemList: function (items){
             let html = ''
             items.forEach(function (item){
-                html += `<li id="item-${item.id}"><strong>${item.name}: </strong><em>${item.calories}</em>Calories</li>`
+                html += `<li class="collection-item" id="item-${item.id}">
+                         <strong>${item.name}:</strong> <em>${item.calories} Calories</em>
+                         <a href="#" class="secondary-content">
+                            <i class="edit-item fa fa-pencil"></i>
+                         </a>
+                         </li>`
             })
             document.querySelector('ul').innerHTML = html
         },
@@ -68,7 +73,12 @@ const UICtrl = (function (){
         addListItem: function (item){
             const  li = document.createElement('li')
             li.id = `item-${item.id}`
-            let html = `<strong>${item.name}: </strong><em>${item.calories}</em>Calories`
+            li.className = 'collection-item'
+            let html = `<strong>${item.name}</strong>
+                            <em>${item.calories} Calories</em>
+                            <a href="#" class="secondary-content">
+                                <i class="edit-item fa fa-pencil"></i>
+                            </a>`
             li.innerHTML = html
             document.querySelector('ul').insertAdjacentElement('beforeend', li)
         },

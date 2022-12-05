@@ -6,6 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <title>Document</title>
 </head>
 <body>
@@ -30,21 +31,21 @@
                         <label for="item-name">Meal</label>
                     </div>
                     <div class="input-field col s6">
-                        <input type="text" placeholder="Add Calories" id="item-calories">
+                        <input type="number" placeholder="Add Calories" id="item-calories">
                         <label for="item-calories">Calories</label>
                     </div>
-                    <button class="add-btn btn blue darken-3"><i class="fa fa-plus"></i>Add Meal</button>
+                    <button class="add-btn btn blue darken-3"><i class="fa fa-plus"></i> Add Meal</button>
                 </div>
             </form>
         </div>
     </div>
-</div>
 
 <h3 class="center-align">Total Calories: <span class="total-calories">0</span></h3>
 
-<ul></ul>
+    <ul id="item-list" class="collection">
+    </ul>
 <script src="app.js"></script>
-
+</div>
 <!-- Compiled and minified JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
