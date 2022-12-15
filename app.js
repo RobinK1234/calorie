@@ -9,9 +9,9 @@ const ItemCtrl = (function (){
     // data structure
     const data = {
         items: [
-            //new Item(0, 'Steak Dinner', 100),
-            //new Item(1, 'Cookie', 420),
-            //new Item(0, 'Eggs', 119)
+            //new Item(0, 'Steak Dinner', 1200),
+            //new Item(1, 'Cookie', 200),
+            //new Item(0, 'Eggs', 300)
         ],
         total: 0,
         currentItem: null
@@ -79,6 +79,9 @@ const ItemCtrl = (function (){
 
                 }
             })
+        },
+        clearItem: function (clearedItem) {
+            data.items = []
         }
     }
 })();
@@ -92,7 +95,8 @@ const UICtrl = (function (){
         addBtn: '.add-btn',
         updateBtn: '.update-btn',
         deleteBtn: '.delete-btn',
-        backBtn:'.back-btn'
+        clearBtn: '.clear-btn',
+        backBtn: '.back-btn'
     }
 
     return{
@@ -170,7 +174,13 @@ const UICtrl = (function (){
         },
         deleteItem: function (item) {
             document.querySelector(`#item-${item.id}`).remove()
-        }
+        },
+        clearItem: function (item) {
+            document.querySelectorAll(UISelectors.listOfItems).forEach(function (item) {
+                item.remove()
+            })
+        },
+
     }
 })()
 
@@ -222,6 +232,19 @@ const StorageCtrl = (function (){
                 }
             })
             localStorage.setItem('items', JSON.stringify(items))
+        },
+        clearAllItems: function (clearAll){
+            /*
+            let items
+            if(localStorage.getItem('items') === null){
+                items = []
+            } else {
+                items = JSON.parse(localStorage.getItem('items'))
+            }
+            items = []
+            localStorage.setItem('items', JSON.stringify(items))
+             */
+            localStorage.removeItem('items')
         }
     }
 })()
@@ -286,6 +309,19 @@ const App = (function (){
         UICtrl.clearEditState()
         event.preventDefault()
     }
+    const itemClearSubmit = function (event) {
+        const clearedItem = ItemCtrl.getCurrentItem()
+        console.log(clearedItem)
+        ItemCtrl.clearItem(clearedItem)
+        console.log(ItemCtrl.logData())
+        UICtrl.clearItem(clearedItem)
+        StorageCtrl.clearAllItems()
+        const totalCalories = ItemCtrl.getTotalCalories()
+        UICtrl.showTotalCalories(totalCalories)
+        UICtrl.clearInput()
+        UICtrl.clearEditState()
+        event.preventDefault()
+    }
 
 
     const loadEventListeners = function (){
@@ -296,6 +332,11 @@ const App = (function (){
         document.querySelector(UISelectors.itemList).addEventListener('click', itemEditSubmit)
         document.querySelector(UISelectors.updateBtn).addEventListener('click', itemUpdateSubmit)
         document.querySelector(UISelectors.deleteBtn).addEventListener('click', itemDeleteSubmit)
+        document.querySelector(UISelectors.clearBtn).addEventListener('click', itemClearSubmit)
+        document.querySelector(UISelectors.backBtn).addEventListener('click', function(e) {
+            UICtrl.clearEditState()
+            e.preventDefault()
+        })
     }
 
     return{
